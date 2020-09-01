@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>COVID19</title>
+
+     <style> 
+    	*{
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+body{
+  font-family: montserrat;
+  background-image: url("c19.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+nav ul{
+  float: right;
+  margin-right: 20px;
+}
+nav ul li{
+  display: inline-block;
+  line-height: 80px;
+  margin: 0 5px;
+  list-style: none;
+  position: relative;
+}
+nav ul li ul{
+  position: absolute;
+  left: 0;
+  background: #333;
+  display: none;
+
+}
+nav ul li:hover ul{
+  display: block;
+}
+nav ul li ul li{
+  display: block;
+  width: 200px;
+}
+nav ul li a{
+  color: white;
+  font-size: 17px;
+  padding: 7px 13px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+a.active,a:hover{
+  background: #1b9bff;
+  transition: .5s;
+}
+.checkbtn{
+  font-size: 30px;
+  color: white;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: pointer;
+  display: none;
+}
+#check{
+  display: none;
+}
+    	
+    </style>
+</head>
+<body>
+<nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+      <ul>
+        <li><a class="active" href="memberLogin.jsp">LOGIN</a></li>
+        <li><a class="active" href="memberRegister.jsp">SIGNUP</a></li>
+      </ul>
+    </nav>
+    
+ 
+   
+  </body>
+</html>

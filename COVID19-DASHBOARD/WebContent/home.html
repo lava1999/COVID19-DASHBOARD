@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>COVID 19 DASHBOARD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_1.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+   
+   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+	<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/mapdata/countries/in/in-all.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+	<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/mapdata/countries/in/in-all.js"></script>
+    <link rel="stylesheet" href="home.css">
+   <script type="text/javascript">
+        function preventBack() 
+        { 
+          window.history.forward(); 
+        }
+        setTimeout("preventBack()", 0);
+        //window.onunload = function () { null };
+    </script>
+  </head>
+  
+  <body>
+    <nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+      <label class="logo">COVID-19 DASHBOARD</label>
+      <ul>
+        <li><a class="active" href="#">Home</a></li>
+        <li><a href="state.jsp">INDIA</a></li>
+        <li class="sub-menu"><a href="#">STATE</a>
+        	<ul>
+        		<li><a href="state.jsp">TELANGANA</a></li>
+        	</ul>
+        </li>
+        
+        <li><a href="index.html">LOGOUT</a>
+        <script>function () { null };</script>
+        </li>
+        
+      </ul>
+    </nav>
+    <br>
+	<section class="corona_update container-fluid">
+			<div class="mb-3">
+				<h1 class="title">COVID-19 IN INDIA</h1>
+			</div>
+			<div class="table-responsive">
+			<table class="table table-bordered table-striped text-center" id="tbIndia">
+				<th>LASTUPDATE TIME</th>
+				<th>CONFIRMED CASES</th>
+				<th>ACTIVE CASES</th>
+				<th>RECOVERED CASES</th>
+				<th>DEATH CASES</th>
+			</table>
+		</div>
+	
+	<center><div id="container"></div></center>
+	<script>
+		var data1=[];
+		var active=[];
+		var confirmed=[];
+		var deaths=[];
+		var recovered=[];
+		fetch('https://api.covid19india.org/data.json').then(function (response)
+        		{
+        		    return response.json();
+        		})
+				.then(function (jsdata1)
+        		{
+        			console.log(jsdata1);
+
+				for(var i=1;i<(jsdata1['statewise'].length);i++)
+				{
+					data1[i]=('in-'+(jsdata1['statewise'][i].statecode).toLowerCase());
+					active[i]=jsdata1['statewise'][i].active;
+					confirmed[i]=jsdata1['statewise'][i].confirmed;
+					deaths[i]=jsdata1['statewise'][i].deaths;
+					recovered[i]=jsdata1['statewise'][i].recovered;
+				}
+
+				var data=[];
+				for(var i=0;i<data1.length;i++)
+				{
+					if(data1[i]=='in-gj')
+					{
+						data[i]=['in-2984',confirmed[i]];
+					}
+					else
+					{
+						data[i]=[data1[i],confirmed[i]];
+					}
+				}
+				Highcharts.mapChart('container', 
+				{
+    				chart: 
+    				{
+    				    map: 'countries/in/in-all'
+    				},
+
+    				title: 
+    				{
+    				    text: ''
+    				},
+
+    				subtitle: 
+    				{
+    				    text: '<a href="http://code.highcharts.com/mapdata/countries/in/in-all.js"/>'//</a>'
+    				},
+
+    				mapNavigation: 
+    				{
+    				    enabled: true,
+    				    buttonOptions: 
+    				    {
+    	    			    verticalAlign: 'bottom'
+    	    			}
+    				},
+
+    				colorAxis: 
+    				{
+    				    min: 1000
+    				},
+
+    				series: 
+    				[{
+    				    data: data,
+    				    name: 'Confirmed cases',
+    				    states: 
+    				    {
+    				        hover: 
+    				        {
+    				            color: '#4bb7d8'
+    				        }
+    				    },
+    				    dataLabels: 
+    	    			{
+    	        			enabled: true,
+    	        			format: '{point.name}'
+    	    			}
+    				}]
+				});
+			});	
+	</script>
+	<section class="corona_update container-fluid">
+			<div class="mb-3">
+				<h1 class="title"> Telangana District wise updates</h1>
+			</div>
+	<canvas id="chart" width=100 height=1></canvas>
+
+	<script>
+		var xlables=[];
+		const ylables=[];
+		
+		chartIt();
+		async function chartIt()
+		{
+			await getCovidapi();
+			/*var ctx = document.getElementById('chart').getContext('2d');*/
+			var c = document.getElementById("chart");
+			var ctx = c.getContext("2d");
+
+			c.width=chart.width=window.innerWidth;
+			c.height=300;
+
+			var myChart = new Chart(ctx, 
+			{
+    		type: 'line',
+    		data: 
+    		{
+        		labels: xlables,
+        		datasets: [{
+        		    label: "Covid19 Tracker in Telangana",
+        		    data: ylables,
+        		    //fill: false,
+        		    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        		    borderColor: 'rgba(255, 99, 132, 1)',
+        		    borderWidth: 1
+        		}]
+    		},
+    		options: 
+    		{
+    		    scales: {
+    		        yAxes: [{
+    		            ticks: {
+    		                beginAtZero: true
+    		            }
+    		        }]
+    		    }
+    		}
+			});
+
+		}	
+
+		async function getCovidapi()
+		{
+			const jsondata1=await fetch('https://api.covidindiatracker.com/state_data.json');
+			const jsdata1=await jsondata1.json();
+			console.log(jsdata1);
+
+			for(var i=1;i<(jsdata1[8]['districtData'].length);i++)
+			{
+				xlables.push(jsdata1[8]['districtData'][i-1].name);
+				ylables.push(jsdata1[8]['districtData'][i-1].confirmed);
+			
+			}
+		}
+		
+		async function solution()
+		{
+			fetch('https://api.covid19india.org/data.json').then(function (response)
+        	{
+        	    return response.json();
+        	})
+        	.then(function (obj)
+        	{
+        	    console.log(obj);
+
+        	    var statescount=obj['statewise'].length;
+        	    //console.log(statescount);
+            	
+            	var i=1;
+            	let confirmed=obj.statewise[1].active;
+            	console.log(confirmed);
+
+            		let LT=obj.statewise[0].lastupdatedtime;
+					//let ST=obj.statewise[0].state;
+					let CD=obj.statewise[0].confirmed;
+					let AT=obj.statewise[0].active;
+					let RD=obj.statewise[0].recovered;
+					let D=obj.statewise[0].deaths;
+
+					var tbIndia=document.getElementById('tbIndia');
+					var y=tbIndia.insertRow();
+
+						y.insertCell(0);
+						tbIndia.rows[1].cells[0].innerHTML= LT;
+						tbIndia.rows[1].cells[0].style.background='#7a4a91';
+						tbIndia.rows[1].cells[0].style.color='#fff';
+
+						y.insertCell(1);
+						tbIndia.rows[1].cells[1].innerHTML= CD;
+						tbIndia.rows[1].cells[1].style.background='#4bb7d8';
+
+						y.insertCell(2);
+						tbIndia.rows[1].cells[2].innerHTML= AT;
+						tbIndia.rows[1].cells[2].style.background='#f36e23';
+
+						y.insertCell(3);
+						tbIndia.rows[1].cells[3].innerHTML= RD;
+						tbIndia.rows[1].cells[3].style.background='#4bb7d8';
+
+						y.insertCell(4);
+						tbIndia.rows[1].cells[4].innerHTML= D;
+						tbIndia.rows[1].cells[4].style.background='#9cc850';
+
+				});
+        }
+        solution();
+	</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+    <script type="text/javascript">
+        function preventBack() 
+        { 
+          window.history.forward(); 
+        }
+        setTimeout("preventBack()", 0);
+        //window.onunload = function () { null };
+    </script>
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+<nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+      <label class="logo">COVID-19 DASHBOARD</label>
+      <ul>
+        <li><a class="active" href="#">Home</a></li>
+        <li><a href="state.jsp">INDIA</a></li>
+        <li class="sub-menu"><a href="#">STATE</a>
+        	<ul>
+        		<li><a href="state.jsp">TELANGANA</a></li>
+        	</ul>
+        </li>
+        
+        <li><a href="index.html">LOGOUT</a>
+        <!--<script>function () { null };</script>-->
+        </li>
+      </ul>
+    </nav>
+    
+</body>
+</html>
